@@ -14,8 +14,15 @@ public class EnemyCombatController : MonoBehaviour
     private void Awake()
     {
         Target = GameObject.Find("Player");
-        Speed = Random.Range(170, 220);
         rb2d = gameObject.GetComponent<Rigidbody2D>();
+        GetStatsFromGM();
+    }
+
+    private void GetStatsFromGM()
+    {
+        Speed = GameObject.Find("GameMaster").GetComponent<GameMasterController>().EnemySpeed;
+        Health = GameObject.Find("GameMaster").GetComponent<GameMasterController>().EnemyHealth;
+        Damage = GameObject.Find("GameMaster").GetComponent<GameMasterController>().EnemyDamage;
     }
 
     // Update is called once per frame

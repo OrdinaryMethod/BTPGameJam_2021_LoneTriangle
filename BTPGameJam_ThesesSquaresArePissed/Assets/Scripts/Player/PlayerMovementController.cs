@@ -9,6 +9,8 @@ public class PlayerMovementController : MonoBehaviour
     public int Health;
     public Vector2 DeathPosition;
     private Rigidbody2D rb2d;
+    private bool IsFacingRight;
+    public bool FlipGunBack;
 
 
     // Start is called before the first frame update

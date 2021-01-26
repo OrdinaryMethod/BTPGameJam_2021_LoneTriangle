@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class GameMasterController : MonoBehaviour
 {
     public GameObject GameMaster;
+    public GameObject Player;
     public int TotalEnemyMobs;
     public bool SpawnActive = false;
     public int SpawnLimit;
@@ -19,6 +21,13 @@ public class GameMasterController : MonoBehaviour
     public int EnemyDamage;
 
 
+    //U.I Elements
+    public Text UI_WaveCount;
+    public Text UI_health;
+    public Text UI_Speed;
+    public Text UI_Ammo;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +38,7 @@ public class GameMasterController : MonoBehaviour
 
         //Wave timer start
         TimeLeft = 10f;
+        WaveCount = 0;
     }
 
     // Update is called once per frame
@@ -36,6 +46,7 @@ public class GameMasterController : MonoBehaviour
     {
         EnemySpawnMonitor();
         CountdownController();
+        UserInterfaceMonitor();
     }
 
     private void EnemySpawnMonitor()
@@ -67,5 +78,14 @@ public class GameMasterController : MonoBehaviour
         EnemyHealth = EnemyHealth + 2;
         EnemySpeed = Random.Range(MinSpeed, MaxSpeed);
         EnemyDamage = EnemyDamage++;
+    }
+
+    private void UserInterfaceMonitor()
+    {
+        //Player Health
+        UI_health.text = Player.GetComponent<PlayerMovementController>().Health.ToString() + "%";
+        UI_Speed.text = Player.GetComponent<PlayerMovementController>().speed.ToString() + "%";
+        UI_Ammo.text = Player.GetComponentInChildren<PlayerWeaponController>().Ammo.ToString();
+        UI_WaveCount.text = WaveCount.ToString();
     }
 }

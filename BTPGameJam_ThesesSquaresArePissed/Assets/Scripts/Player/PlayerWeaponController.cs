@@ -8,12 +8,21 @@ public class PlayerWeaponController : MonoBehaviour
 	public GameObject BulletPrefab;
 	private Vector2 direction;
 	public int Damage;
+	private bool IsFacingRight;
 
 	private float FireRate;
 	public float SetFireRate;
 
+	public int Ammo;
+
 	public float AimSpeed = 100f; //Aim speed
-	void Update()
+
+    void Start()
+    {
+		Ammo = 100;
+    }
+
+    void Update()
 	{
 		AimDirection();
 		SpawnBullet();
@@ -33,10 +42,14 @@ public class PlayerWeaponController : MonoBehaviour
         {
 			if (Input.GetKey(KeyCode.Mouse0))
 			{
-				GameObject a = Instantiate(BulletPrefab, FirePoint.transform.position, Quaternion.identity) as GameObject;
-				Rigidbody2D rb2d = a.GetComponent<Rigidbody2D>();
-				rb2d.velocity = new Vector2(direction.x, direction.y) * 20;
-				Destroy(a, 1);
+				if(Ammo > 0)
+                {
+					GameObject a = Instantiate(BulletPrefab, FirePoint.transform.position, Quaternion.identity) as GameObject;
+					Rigidbody2D rb2d = a.GetComponent<Rigidbody2D>();
+					rb2d.velocity = new Vector2(direction.x, direction.y) * 20;
+					Destroy(a, 1);
+					Ammo = Ammo - 1;
+				}				
 			}
 			FireRate = SetFireRate;
 		}

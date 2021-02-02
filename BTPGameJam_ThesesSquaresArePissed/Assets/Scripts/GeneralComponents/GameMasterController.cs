@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class GameMasterController : MonoBehaviour
@@ -12,6 +13,8 @@ public class GameMasterController : MonoBehaviour
     public int SpawnLimit;
     public float TimeLeft;
     public int WaveCount;
+    public Button TryAgainButton;
+
 
     //Enemy Stats
     public int EnemyHealth;
@@ -26,6 +29,9 @@ public class GameMasterController : MonoBehaviour
     public Text UI_health;
     public Text UI_Speed;
     public Text UI_Ammo;
+
+    public Button Respawn;
+    public Button ExitGame;
 
 
     // Start is called before the first frame update
@@ -47,6 +53,7 @@ public class GameMasterController : MonoBehaviour
         EnemySpawnMonitor();
         CountdownController();
         UserInterfaceMonitor();
+        reloadScene();
     }
 
     private void EnemySpawnMonitor()
@@ -60,14 +67,14 @@ public class GameMasterController : MonoBehaviour
         if(TimeLeft <  0 && !SpawnActive)
         {
             SpawnActive = true;
-            TimeLeft = 15f;
+            TimeLeft = 60f;
             WaveCount = WaveCount + 1;
             IncreaseWaveDifficulty();
         }
         else if(TimeLeft < 0 && SpawnActive)
         {
             SpawnActive = false;
-            TimeLeft = 1f;
+            TimeLeft = 30f;
         }
     }
 
@@ -87,5 +94,37 @@ public class GameMasterController : MonoBehaviour
         UI_Speed.text = Player.GetComponent<PlayerMovementController>().speed.ToString() + "%";
         UI_Ammo.text = Player.GetComponentInChildren<PlayerWeaponController>().Ammo.ToString();
         UI_WaveCount.text = WaveCount.ToString();
+    }
+
+
+    private void reloadScene()
+    {
+        if(Player.GetComponent<PlayerMovementController>().Health <= 0)
+        {
+
+            TryAgainButton.gameObject.SetActive(true);
+            ExitGame.gameObject.SetActive(true);
+            TryAgainButton.GetComponentInChildren<Text>().text = "Try Again?";
+            ExitGame.GetComponentInChildren<Text>().text = "Exit Game";
+            TryAgainButton.GetComponent<Button>().onClick.AddListener(OnClickReload);
+            ExitGame.GetComponent<Button>().onClick.AddListener(ExitGameClick);
+        }
+        else
+        {
+            TryAgainButton.gameObject.SetActive(false);
+            ExitGame.gameObject.SetActive(false);
+        }
+    }
+
+    private void OnClickReload()
+    {
+        Player.GetComponent<PlayerMovementController>().Health = 100;
+        TryAgainButton.GetComponentInChildren<Text>().text = "Loading...";
+        SceneManager.LoadScene("SampleScene");
+    }
+
+    private void ExitGameClick()
+    {
+        Application.Quit();
     }
 }

@@ -11,6 +11,10 @@ public class EnemyCombatController : MonoBehaviour
     public int Health;
     public int Damage;
 
+    //Droppable Items
+    public GameObject HealthDrop;
+    public GameObject SpeedDrop;
+    public GameObject AmmoDrop;
     private void Awake()
     {
         Target = GameObject.Find("Player");
@@ -46,6 +50,23 @@ public class EnemyCombatController : MonoBehaviour
     {
         if(Health <= 0)
         {
+            int ItemDrop = Random.Range(1, 100);
+            
+            if(ItemDrop >= 1 && ItemDrop < 20)
+            {
+                GameObject a = Instantiate(HealthDrop, transform.position, Quaternion.identity) as GameObject;
+            }
+            else if(ItemDrop >= 20 && ItemDrop < 35)
+            {
+                GameObject a = Instantiate(SpeedDrop, transform.position, Quaternion.identity) as GameObject;
+            }
+            else if(ItemDrop >= 35 && ItemDrop < 75)
+            {
+                GameObject a = Instantiate(AmmoDrop, transform.position, Quaternion.identity) as GameObject;
+            }
+
+
+            
             Destroy(gameObject);
         }
     }

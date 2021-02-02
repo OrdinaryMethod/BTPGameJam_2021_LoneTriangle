@@ -12,7 +12,6 @@ public class PlayerMovementController : MonoBehaviour
     private bool IsFacingRight;
     public bool FlipGunBack;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +43,21 @@ public class PlayerMovementController : MonoBehaviour
                 int EnemyDamage = collision.gameObject.GetComponentInChildren<EnemyCombatController>().Damage;
                 Health = Health - EnemyDamage;
                 rb2d.AddForce(new Vector2(2,2));
+                Destroy(collision.gameObject);
+                break;
+            case "HealthDrop":
+                int HealthDrop = collision.gameObject.GetComponent<ItemDropController>().HealthDrop;
+                Health = Health + HealthDrop;
+                Destroy(collision.gameObject);
+                break;
+            case "SpeedDrop":
+                float SpeedDrop = collision.gameObject.GetComponent<ItemDropController>().SpeedDrop;
+                speed = speed + SpeedDrop;
+                Destroy(collision.gameObject);
+                break;
+            case "AmmoDrop":
+                int AmmoDrop = collision.gameObject.GetComponent<ItemDropController>().AmmoDrop;
+                GameObject.Find("Weapon").GetComponent<PlayerWeaponController>().Ammo = GameObject.Find("Weapon").GetComponent<PlayerWeaponController>().Ammo + AmmoDrop;
                 Destroy(collision.gameObject);
                 break;
         }

@@ -147,3 +147,8 @@ MonoBehaviour:
   Speed: 90
   Health: 5
   Damage: 5
+  HealthDrop: {fileID: 2310441930986773263, guid: 8f6071b12d0adb845aefcf0ea11592ce,
+    type: 3}
+  SpeedDrop: {fileID: 7079149193271506638, guid: 4d6820dbf6a86484fa03e463d8a356c8,
+    type: 3}
+  AmmoDrop: {fileID: 466221318055997827, guid: 056c95740020ba1468c6268e45b2dff4, type: 3}
